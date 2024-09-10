@@ -1,0 +1,23 @@
+<h1>Links</h1>
+
+<% @links.each do |link| %>
+    <%= link.title %>
+    <%= link.url %>
+    <%= image_tag url_for(link.thumbnail.variant(resize_to_fit: [64, 64])) %>
+<% end %>
+
+<%= form_with model: @link do |form| %>
+    <div>
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+  <div>
+    <%= form.label :url %>
+    <%= form.text_field :url %>
+  </div>
+  <div>
+    <%= form.label :thumbnail %>
+    <%= form.file_field :thumbnail %>
+  </div>
+  <%= form.submit %>
+<% end %>

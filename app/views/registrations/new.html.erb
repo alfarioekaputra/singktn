@@ -1,0 +1,63 @@
+<div class="flex-fill d-flex flex-column justify-content-center py-4">
+      <div class="container-tight py-6">
+        <div class="text-center mb-4">
+          <a href="."><img src="./static/logo.svg" height="36" alt=""></a>
+        </div>
+        <%= form_for(resource, as: resource_name, :html => { class: 'card card-md' }, url: registration_path(resource_name)) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
+          <div class="card-body">
+            <h2 class="card-title text-center mb-4">Create new account</h2>
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <%= f.text_field :username, autofocus: true, autocomplete: "username", :class => 'form-control', :placeholder => 'Enter username' %>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email address</label>
+              <%= f.email_field :email, autocomplete: "email", :class => 'form-control', :placeholder => 'Enter Email' %>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">
+                Password
+                <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %>
+              </label>
+              <div class="input-group input-group-flat">
+                <%= f.password_field :password, autocomplete: "new-password", :class => "form-control", :placeholder => "Password", autocomplete: "off" %>
+                <%
+=begin%>
+ <span class="input-group-text">
+                  <a href="#" class="link-secondary" title="" data-bs-toggle="tooltip" data-bs-original-title="Show password"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="2"></circle><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path></svg>
+                  </a>
+                </span> 
+<%
+=end%>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="field">
+                <%= f.label :password_confirmation, :class => "form-label" %>
+                <%= f.password_field :password_confirmation, :class => "form-control", autocomplete: "new-password" %>
+              </div>
+            </div>
+            <%
+=begin%>
+ Next Feature
+ <div class="mb-3">
+              <label class="form-check">
+                <input type="checkbox" class="form-check-input">
+                <span class="form-check-label">Agree the <a href="./terms-of-service.html" tabindex="-1">terms and policy</a>.</span>
+              </label>
+            </div> 
+<%
+=end%>
+            <div class="form-footer">
+              <%= f.submit "Create new account", :class => "btn btn-primary w-100" %>
+            </div>
+          </div>
+        <% end %>
+        <div class="text-center text-muted mt-3">
+          Already have account? <%= link_to "Sign in", new_session_path(resource_name) %><br />
+        </div>
+      </div>
+    </div>
