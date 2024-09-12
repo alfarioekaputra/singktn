@@ -26,20 +26,21 @@ class LinksController < ApplicationController
 
     # POST /links or /links.json
     def create
-        @link = Link.new(link_params)
-        @link.user_id = current_user.id
-        @link.click = 0
-        @link.short_url = rand(36**6).to_s(36)
-        @link.thumbnail.attach(link_params[:thumbnail]) if @link.thumbnail.attached?
-        
-        if (params[:url].include? "http://") || (params[:url].include? "https://")
-        @link.url = params[:url]
-        else
-        @link.url = 'https://' + params[:url]
+        begin
+            @link = Link.new(link_params)
+            @link.user_id = current_user.id
+            @link.short_url = generate_short_url
+            @link.thumbnail.attach(link_params[:thumbnail]) if @link.thumbnail.attached?
+            
+            if (params[:url].include? "http://") || (params[:url].include? "https://")
+                @link.url = params[:url]
+            else
+                @link.url = 'https://' + params[:url]
+            end
+        rescue ActiveRecord::RecordNotUnique
+            retry
         end
-        # Attach picture to our item, if available
-        # attach_thumbnail(@link) if link_params[:thumbnail].present?
-
+        
         if @link.save
         redirect_to links_path, notice: 'Links was successfully created.'
         else
@@ -91,5 +92,10 @@ class LinksController < ApplicationController
         # Only allow a list of trusted parameters through.
         def link_params
             params.permit(:title, :url, :thumbnail)
+        end
+
+        def generate_short_url(length = 6)
+            characters = [*'a'..'z', *'A'..'Z', *'0'..'9']
+            (0...length).map { characters.sample }.join
         end
 end
