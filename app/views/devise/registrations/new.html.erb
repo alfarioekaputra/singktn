@@ -1,6 +1,30 @@
-<h2>Sign up</h2>
+<div class="flex items-center justify-center bg-cover bg-center h-screen" style="background-image: url('/assets/background.png')">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+        <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">Sign Up Now</h2>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <div class="mb-4">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500", placeholder: "Input Email" %>
+            </div>
+            <div class="mb-4">
+                <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %><br />
+                <%= f.password_field :password, autocomplete: "new-password", class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500", placeholder: "Input Password" %>
+            </div>
+            <div class="mb-4">
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500", placeholder: "Input Confirmation Password" %>
+            </div>
+            <%# <div class="mb-4 flex items-center">
+                <input type="checkbox" id="terms" class="mr-2">
+                <label for="terms" class="text-sm text-gray-600">I agree to the <a href="#" class="text-blue-500">Terms of Service</a>.</label>
+            </div>%>
+            <button type="submit" class="w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 transition-colors">Create an Account</button>
+        </form>
+        <p class="mt-4 text-sm text-center text-gray-600">Do you have an Account? <%= link_to 'Sign In', new_user_session_path, class:"text-blue-500" %></p>
+    </div>
+</div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
