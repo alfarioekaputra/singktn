@@ -11,5 +11,9 @@ class ApplicationController < ActionController::Base
       else
         "application"
       end
+
+      # if current_user
+      #   "dashboard"
+      # end
     end
 end

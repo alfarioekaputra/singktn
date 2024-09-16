@@ -62,3 +62,11 @@ gem "pg", "~> 1.5"
 gem "figaro", "~> 1.2"
 
 gem "tailwindcss-rails", "~> 2.7"
+
+gem "activeadmin"
+
+# Plus integrations with:
+gem "cancancan"
+gem "draper"
+gem "pundit"
+gem "sassc-rails"
