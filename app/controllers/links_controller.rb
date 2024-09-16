@@ -30,7 +30,6 @@ class LinksController < ApplicationController
             @link.user_id = current_user.id
             @link.short_url = generate_short_url
             @link.thumbnail.attach(link_params[:thumbnail]) if @link.thumbnail.attached?
-
             if (params[:url].include? "http://") || (params[:url].include? "https://")
                 @link.url = params[:url]
             else
@@ -41,9 +40,13 @@ class LinksController < ApplicationController
         end
 
         if @link.save
-        redirect_to links_path, notice: "Links was successfully created."
+            # redirect_to links_path(@links), notice: "Links was successfully created."
+            respond_to do |format|
+                format.html { redirect_to link_path(@link), notice: "Link was successfully created." }
+                format.turbo_stream { flash.notice = "Link was successfully created." }
+            end
         else
-        redirect_to new_link_path, errors: link.errors
+            render :new, status: :unprocessable_entity
         end
     end
 
@@ -74,6 +77,18 @@ class LinksController < ApplicationController
         end
     end
 
+    def url
+        link = Link.where(short_url: params[:short_url]).where(status: true).first
+
+        if link
+            link.update(click: link.click + 1)
+            redirect_to(link.url, allow_other_host: true)
+        else
+            content_not_found
+        end
+
+    end
+
     private
         def attach_thumbnail(link)
             link.thumbnail.attach(link_params[:thumbnail])
@@ -89,7 +104,7 @@ class LinksController < ApplicationController
 
         # Only allow a list of trusted parameters through.
         def link_params
-            params.permit(:title, :url, :thumbnail)
+            params.permit(:title, :url, :thumbnail, :status)
         end
 
         def generate_short_url(length = 6)

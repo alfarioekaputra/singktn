@@ -1,27 +1,66 @@
-<h1>Links</h1>
-
-<% @links.each do |link| %>
-    <%= link.title %>
-    <%= link.url %>
-    <%= image_tag url_for(link.thumbnail.variant(resize_to_fit: [64, 64])) %>
-<% end %>
+<div class="mt-24">
+<div class="max-w-lg">
 
 <%= form_with model: @link do |form| %>
-    <div>
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+    <div class="mb-5">
+      <%= form.label :title, class:"block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.text_field :title, class:"shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" %>
   </div>
-  <div>
-    <%= form.label :url %>
-    <%= form.text_field :url %>
+    <div class="mb-5">
+    <%= form.label :url, class:"block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+    <%= form.text_field :url, class:"shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" %>
   </div>
-  <div>
-    <%= form.label :thumbnail %>
-    <%= form.file_field :thumbnail %>
+    <div class="mb-5">
+    <%= form.label :thumbnail, class:"block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+    <%= form.file_field :thumbnail, class:"block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"%>
   </div>
-  <%= form.submit %>
+    </div>
+    <div class="mb-5">
+      <label class="inline-flex items-center mb-5 cursor-pointer">
+        <%= form.check_box :status, checked: "checked", class:"sr-only peer"%>
+        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Status</span>
+      </label>
+    </div>
+    <div class="mb-5">
+  <%= form.submit class:"focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900" %>
+    </div>
 <% end %>
+</div>
 
-<h1 class="text-3xl font-bold underline">
-    Hello world!
-</h1>
+<div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+
+  <div class="flow-root">
+    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+      <%#= turbo_frame_tag "links" do %>
+        <% @links.each do |link| %>
+          <li class="py-3 sm:py-4">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <%= image_tag url_for(link.thumbnail.variant(resize_to_fit: [100, 100])), class:"rounded-xl" %>
+              </div>
+              <div class="flex-1 min-w-0 ms-4">
+                <p class="text-sm font-medium text-gray-900 truncate dark:text-white" data-turbo-prefetch="false">
+                  <%= link.title %>
+                </p>
+                <p class="text-sm font-medium text-gray-900 truncate dark:text-white" data-turbo-prefetch="false">
+                  <%= link_to request.base_url + '/' + link.short_url, link.short_url, target: "_blank", class:"text-blue-700 hover:border-b-2 font-medium text-xl text-center" %>
+                </p>
+                <p class="text-md text-gray-500 truncate dark:text-gray-400">
+                  <%= link.url %>
+                </p>
+                <p class="text-md text-gray-500 truncate dark:text-gray-400">
+                  Click: <%= link.click %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                $320
+              </div>
+            </div>
+          </li>
+        <% end %>
+      <%# end %>
+    </ul>
+  </div>
+</div>
+</div>
