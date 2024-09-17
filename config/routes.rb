@@ -17,7 +17,10 @@ Rails.application.routes.draw do
   root "pages#index"
   get "pages/index"
 
+  get "dashboard" => "dashboard#index", as: :dashboard
+
   resources :links
 
   get "/:short_url", to: "links#url"
+
 end
